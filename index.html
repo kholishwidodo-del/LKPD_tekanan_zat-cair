@@ -230,13 +230,21 @@
                                 <!-- Gelombang Permukaan -->
                                 <div class="w-full h-1 bg-cyan-200/60 shadow-sm shadow-cyan-300"></div>
 
-                                <!-- Sensor Probe (Bergerak Vertikal) -->
-                                <div id="simProbe" class="absolute left-1/2 -translate-x-1/2 flex flex-col items-center transition-all duration-150" style="top: 50%;">
-                                    <!-- Kabel Sensor -->
-                                    <div class="w-1 bg-amber-400 -mt-32 h-32"></div>
-                                    <!-- Ujung Sensor -->
-                                    <div class="w-8 h-8 rounded-full bg-amber-500 border-2 border-amber-200 shadow-lg flex items-center justify-center text-slate-950 text-xs font-extrabold">
-                                        <i class="fa-solid fa-bullseye"></i>
+                                <!-- Benda Tercelup / Sensor Probe (Bergerak Vertikal) -->
+                                <div id="simProbe" class="absolute left-1/2 -translate-x-1/2 flex flex-col items-center transition-all duration-200 ease-out" style="top: 0%;">
+                                    <!-- Kabel Gantungan / Tali Sensor -->
+                                    <div class="w-1 bg-amber-400/80 -mt-64 h-64 shadow"></div>
+                                    
+                                    <!-- Benda Fisik Tercelup -->
+                                    <div class="relative flex items-center justify-center">
+                                        <!-- Garis Penunjuk Kedalaman ke Penggaris Kiri -->
+                                        <div class="absolute right-full mr-1 w-12 border-b-2 border-dashed border-amber-300 opacity-80 pointer-events-none"></div>
+                                        
+                                        <!-- Blok Benda / Sensor -->
+                                        <div class="w-10 h-10 rounded-lg bg-gradient-to-b from-amber-400 to-amber-600 border-2 border-amber-200 shadow-xl flex flex-col items-center justify-center text-slate-950 font-bold text-xs">
+                                            <i class="fa-solid fa-cube text-xs"></i>
+                                            <span id="probeDepthLabel" class="text-[9px] font-extrabold leading-none mt-0.5">1.5m</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -549,9 +557,16 @@
             document.getElementById('simFormulaText').innerText = phKPa.toFixed(2);
             document.getElementById('simRhoText').innerText = rho;
 
-            // Update posisi probe dalam visualizer
-            const probePercentage = (h / 3.0) * 92; // 0m to 3m
-            document.getElementById('simProbe').style.top = `${probePercentage}%`;
+            // Update label pada benda tercelup
+            const probeLabel = document.getElementById('probeDepthLabel');
+            if (probeLabel) probeLabel.innerText = `${h.toFixed(1)}m`;
+
+            // Update posisi vertikal benda dalam tangki (0m -> 2% permukaan, 3m -> 82% dasar tangki)
+            const probePercentage = (h / 3.0) * 82;
+            const simProbe = document.getElementById('simProbe');
+            if (simProbe) {
+                simProbe.style.top = `${probePercentage}%`;
+            }
 
             // Update warna tank berdasarkan jenis fluida
             const tank = document.getElementById('simFluidTank');
