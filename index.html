@@ -1,4 +1,4 @@
-DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -62,7 +62,7 @@ DOCTYPE html>
                 <div class="text-center md:text-left">
                     <span class="bg-blue-800 text-blue-100 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider"> IPA MTsN 1 Kota Malang </span>
                     <h1 class="text-2xl sm:text-3xl font-extrabold mt-2 tracking-tight">LEMBAR KERJA PESERTA DIDIK (LKPD) INTERAKTIF</h1>
-                    <p class="text-blue-100 mt-1 font-medium text-sm sm:text-base">Materi: Tekanan Zat Cair</p>
+                    <p class="text-blue-100 mt-1 font-medium text-sm sm:text-base">Materi: Tekanan Hidrostatis</p>
                 </div>
                 <div class="no-print flex flex-col sm:flex-row gap-2">
                     <button onclick="downloadPDF()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-4 py-2.5 rounded-lg transition-all shadow-md flex items-center justify-center gap-2 text-sm">
@@ -81,13 +81,13 @@ DOCTYPE html>
             <section class="bg-slate-50 p-5 rounded-xl border border-slate-200 print-card">
                 <div class="flex items-center gap-2 mb-4 text-blue-800 font-bold text-lg border-b border-slate-200 pb-2">
                     <i class="fa-solid fa-users"></i>
-                    <h2>IDENTITAS KELOMPOK </h2>
+                    <h2>IDENTITAS KELOMPOK</h2>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
                         <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Nama Kelompok / Kelas:</label>
-                        <input type="text" id="namaKelompok" placeholder="Contoh: Kelompok 3 - IX" class="w-full p-2.5 bg-white border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                        <input type="text" id="namaKelompok" placeholder="Contoh: Kelompok 3 - VIII A" class="w-full p-2.5 bg-white border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Tanggal Pelaksanaan:</label>
@@ -136,47 +136,137 @@ DOCTYPE html>
                         <i class="fa-solid fa-book-open text-indigo-600"></i> Dasar Teori
                     </h3>
                     <p class="text-sm text-gray-700 leading-relaxed mb-2">
-                        Tekanan hidrostatis adalah tekanan yang diberikan oleh fluida tak bergerak akibat adanya gaya gravitasi.
+                        Tekanan hidrostatis adalah tekanan yang diberikan oleh cairan yang diam pada suatu kedalaman tertentu akibat adanya gaya gravitasi.
                     </p>
                     <div class="bg-white p-3 rounded-lg border border-indigo-200 text-center shadow-inner my-2">
                         <span class="font-bold text-indigo-800 text-base">Persamaan: P<sub>h</sub> = ρ · g · h</span>
                     </div>
                     <p class="text-xs text-gray-600 mt-1">
-                        Keterangan: P<sub>h</sub> = Tekanan Hidrostatis (Pa/kPa), ρ = Massa Jenis Fluida (kg/m³), g = Percepatan Gravitasi (m/s²), h = Kedalaman (m).
+                        Keterangan: P<sub>h</sub> = Tekanan Hidrostatis (kPa), ρ = Massa Jenis Fluida (kg/m³), g = Percepatan Gravitasi (m/s²), h = Kedalaman (m).
                     </p>
                 </div>
             </section>
 
-            <!-- SECTION 3: Simulator Virtual Direct Embed & Link -->
-            <section class="bg-gradient-to-br from-slate-900 to-slate-800 text-white p-5 rounded-2xl shadow-md no-print">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
+            <!-- SECTION 3: Simulator Virtual Tekanan Hidrostatis (Built-in) -->
+            <section class="bg-slate-900 text-white p-5 sm:p-6 rounded-2xl shadow-lg border border-slate-700 no-print space-y-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-700 pb-3">
                     <div>
-                        <h3 class="font-bold text-lg text-cyan-300 flex items-center gap-2">
-                            <i class="fa-solid fa-flask"></i> Simulator Virtual Tekanan Zat Cair
+                        <h3 class="font-bold text-lg text-cyan-400 flex items-center gap-2">
+                            <i class="fa-solid fa-flask"></i> Simulator Virtual Tekanan Hidrostatis
                         </h3>
-                        <p class="text-xs text-slate-300">Gunakan simulator di bawah ini untuk mengambil data pengamatan kelompok Anda.</p>
+                        <p class="text-xs text-slate-300">Gunakan kontrol di bawah ini untuk mensimulasikan kedalaman dan jenis fluida, lalu catat datanya ke dalam tabel.</p>
                     </div>
-                    <a href="https://kholishwidodo-del.github.io/simulator_Tekanan-hidrostatis_mekanika-fluida/" target="_blank" class="text-xs bg-cyan-500 hover:bg-cyan-600 text-slate-950 font-bold px-3 py-2 rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka di Tab Baru
-                    </a>
+                    <span class="bg-cyan-950 text-cyan-300 border border-cyan-700 text-xs px-3 py-1 rounded-full font-semibold">
+                        Simulasi Murni Tekanan Hidrostatis
+                    </span>
                 </div>
 
-                <!-- Frame Embed Simulator -->
-                <div class="w-full bg-slate-950 rounded-xl overflow-hidden border border-slate-700 shadow-inner min-h-[480px] relative">
-                    <iframe id="sim-frame" src="https://kholishwidodo-del.github.io/simulator_Tekanan-hidrostatis_mekanika-fluida/" class="w-full h-[520px] border-none" title="Simulator Tekanan Hidrostatis"></iframe>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <!-- Kontrol Simulator (Kiri) -->
+                    <div class="lg:col-span-5 space-y-4 bg-slate-800/80 p-4 rounded-xl border border-slate-700">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Pilih Jenis Fluida (Massa Jenis ρ):</label>
+                            <select id="simFluid" onchange="updateSim()" class="w-full p-2 bg-slate-900 border border-slate-600 rounded text-sm text-cyan-300 font-semibold focus:outline-none focus:border-cyan-400">
+                                <option value="1000" selected>Air Murni (ρ = 1000 kg/m³)</option>
+                                <option value="800">Minyak (ρ = 800 kg/m³)</option>
+                                <option value="750">Bensin (ρ = 750 kg/m³)</option>
+                                <option value="1025">Air Laut (ρ = 1025 kg/m³)</option>
+                                <option value="13600">Raksa (ρ = 13600 kg/m³)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Percepatan Gravitasi (g):</label>
+                            <div class="flex gap-4 text-xs font-medium">
+                                <label class="flex items-center gap-1.5 cursor-pointer">
+                                    <input type="radio" name="simG" value="9.8" checked onchange="updateSim()" class="accent-cyan-400"> g = 9.8 m/s²
+                                </label>
+                                <label class="flex items-center gap-1.5 cursor-pointer">
+                                    <input type="radio" name="simG" value="10" onchange="updateSim()" class="accent-cyan-400"> g = 10 m/s²
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-xs font-semibold text-slate-300 mb-1">
+                                <span>Kedalaman Sensor (h):</span>
+                                <span id="simDepthVal" class="text-cyan-300 font-bold">1.5 meter</span>
+                            </div>
+                            <input type="range" id="simDepth" min="0" max="3" step="0.1" value="1.5" oninput="updateSim()" class="w-full accent-cyan-400 cursor-pointer">
+                            <div class="flex justify-between text-[10px] text-slate-400 mt-0.5">
+                                <span>0 m (Permukaan)</span>
+                                <span>1.5 m</span>
+                                <span>3.0 m (Dasar)</span>
+                            </div>
+                        </div>
+
+                        <!-- Opsi Tekanan Udara Luar -->
+                        <div class="pt-2 border-t border-slate-700 flex items-center justify-between">
+                            <span class="text-xs font-semibold text-slate-300">Hitung Tekanan Udara Luar (P<sub>atm</sub> = 101.3 kPa):</span>
+                            <input type="checkbox" id="simAtm" onchange="updateSim()" class="w-4 h-4 accent-cyan-400 rounded">
+                        </div>
+                    </div>
+
+                    <!-- Visualisasi Tangki & Sensor Gauge (Kanan) -->
+                    <div class="lg:col-span-7 bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col items-center relative overflow-hidden">
+                        <div class="w-full text-center text-xs text-slate-400 mb-2 font-mono">
+                            TANGKI FLUIDA TERBUKA & SENSOR KEDALAMAN
+                        </div>
+
+                        <div class="relative w-full max-w-sm h-64 border-b-4 border-x-4 border-slate-600 rounded-b-xl overflow-hidden bg-slate-900 shadow-inner flex">
+                            <!-- Penggaris Skala Kedalaman -->
+                            <div class="w-10 h-full border-r border-slate-700/80 bg-slate-950/50 flex flex-col justify-between py-2 text-[10px] font-mono text-slate-400 items-center select-none">
+                                <span>0.0m</span>
+                                <span>0.5m</span>
+                                <span>1.0m</span>
+                                <span>1.5m</span>
+                                <span>2.0m</span>
+                                <span>2.5m</span>
+                                <span>3.0m</span>
+                            </div>
+
+                            <!-- Area Fluid -->
+                            <div id="simFluidTank" class="flex-1 h-full relative transition-colors duration-500 bg-blue-500/40">
+                                <!-- Gelombang Permukaan -->
+                                <div class="w-full h-1 bg-cyan-200/60 shadow-sm shadow-cyan-300"></div>
+
+                                <!-- Sensor Probe (Bergerak Vertikal) -->
+                                <div id="simProbe" class="absolute left-1/2 -translate-x-1/2 flex flex-col items-center transition-all duration-150" style="top: 50%;">
+                                    <!-- Kabel Sensor -->
+                                    <div class="w-1 bg-amber-400 -mt-32 h-32"></div>
+                                    <!-- Ujung Sensor -->
+                                    <div class="w-8 h-8 rounded-full bg-amber-500 border-2 border-amber-200 shadow-lg flex items-center justify-center text-slate-950 text-xs font-extrabold">
+                                        <i class="fa-solid fa-bullseye"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Display Digital Gauge -->
+                        <div class="mt-4 bg-slate-900 border border-cyan-500/40 p-3 rounded-xl w-full max-w-sm flex items-center justify-between shadow-md">
+                            <div>
+                                <span class="block text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Hasil Terukur Sensor</span>
+                                <span id="simGaugeResult" class="text-2xl font-black text-cyan-300 tracking-tight">14.70 kPa</span>
+                            </div>
+                            <div class="text-right text-[11px] font-mono text-slate-400">
+                                <div>P<sub>h</sub> = <span id="simFormulaText" class="text-cyan-400 font-bold">14.70</span> kPa</div>
+                                <div>Massa Jenis: <span id="simRhoText" class="text-slate-200">1000</span> kg/m³</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
             <!-- PRINT ONLY fallback info for simulator -->
             <div class="hidden print:block bg-gray-100 p-3 rounded text-xs text-gray-600 italic border border-gray-300">
-                Data diperoleh melalui Simulator Praktikum Virtual Tekanan Hidrostatis (https://kholishwidodo-del.github.io/simulator_Tekanan-hidrostatis_mekanika-fluida/)
+                Data percobaan diperoleh menggunakan Simulator Virtual Tekanan Hidrostatis (P<sub>h</sub> = ρ · g · h).
             </div>
 
             <!-- SECTION 4: Kegiatan 1 - Variasi Kedalaman -->
             <section class="space-y-4">
                 <div class="border-l-4 border-blue-600 pl-3">
                     <h3 class="font-bold text-lg text-gray-800">Kegiatan 1: Pengaruh Kedalaman (h) Terhadap Tekanan Hidrostatis</h3>
-                    <p class="text-xs text-gray-600">Kontrol: Massa Jenis Fluida Air (ρ = 1000 kg/m³) dan Percepatan Gravitasi (g = 9.8 m/s² atau 10 m/s²).</p>
+                    <p class="text-xs text-gray-600">Kontrol: Gunakan Air Murni (ρ = 1000 kg/m³) dan percepatan gravitasi g sesuai penetapan kelompok.</p>
                 </div>
 
                 <div class="overflow-x-auto">
@@ -200,7 +290,7 @@ DOCTYPE html>
                     <button onclick="addRowKegiatan1()" class="text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-1">
                         <i class="fa-solid fa-plus"></i> Tambah Baris Data
                     </button>
-                    <span>*Gunakan nilai g = 9.8 m/s² atau 10 m/s² sesuai penetapan kelompok</span>
+                    <span>*Nilai g yang digunakan standar g = 9.8 m/s² atau 10 m/s²</span>
                 </div>
             </section>
 
@@ -208,7 +298,7 @@ DOCTYPE html>
             <section class="space-y-4">
                 <div class="border-l-4 border-indigo-600 pl-3">
                     <h3 class="font-bold text-lg text-gray-800">Kegiatan 2: Pengaruh Jenis Fluida (ρ) Terhadap Tekanan Hidrostatis</h3>
-                    <p class="text-xs text-gray-600">Kontrol: Tetapkan kedalaman h = 2 meter konstan, variasikan jenis cairan (misal: Minyak, Air, Raksa, atau Cairan Lain).</p>
+                    <p class="text-xs text-gray-600">Kontrol: Tetapkan kedalaman h = 2.0 meter konstan, variasikan jenis fluida pada simulator.</p>
                 </div>
 
                 <div class="overflow-x-auto">
@@ -276,18 +366,18 @@ DOCTYPE html>
                     <!-- Pertanyaan 3 - Soal Studi Kasus Perhitungan -->
                     <div class="bg-amber-50/60 p-4 rounded-xl border border-amber-200 print-card">
                         <label class="block font-semibold text-sm text-amber-900 mb-2">
-                            3. <span class="bg-amber-200 text-amber-900 px-2 py-0.5 rounded text-xs">Studi Kasus Hitungan</span> Seorang penyelam sedang melakukan latihan di kedalaman 8 meter di bawah permukaan air laut (ρ = 1025 kg/m³). Jika gravitasi g = 9.8 m/s², berapa besar tekanan hidrostatis yang dirasakan oleh penyelam tersebut?
+                            3. <span class="bg-amber-200 text-amber-900 px-2 py-0.5 rounded text-xs">Studi Kasus Hitungan</span> Seorang penyelam sedang menyelam di kedalaman 8 meter di bawah permukaan air laut (ρ = 1025 kg/m³). Jika percepatan gravitasi g = 9.8 m/s², berapa besar tekanan hidrostatis (P<sub>h</sub>) yang dirasakan oleh penyelam tersebut?
                         </label>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
                             <div>
                                 <label class="block text-xs font-medium text-gray-600 mb-1">Langkah Penyelesaian / Rumus:</label>
-                                <textarea rows="3" placeholder="Diketahui: ρ = ..., g = ..., h = ...&#10;Jawab: Ph = ..." class="w-full p-2.5 bg-white border border-amber-300 rounded-lg text-sm outline-none"></textarea>
+                                <textarea rows="3" placeholder="Diketahui: ρ = 1025, g = 9.8, h = 8&#10;Jawab: Ph = ρ · g · h = ..." class="w-full p-2.5 bg-white border border-amber-300 rounded-lg text-sm outline-none"></textarea>
                             </div>
                             <div class="bg-white p-3 rounded-lg border border-amber-200 flex flex-col justify-between">
                                 <div>
                                     <span class="text-xs font-semibold text-gray-500 uppercase">Input Hasil Akhir (kPa):</span>
                                     <div class="flex items-center gap-2 mt-2">
-                                        <input type="number" id="calcAnswer" step="0.1" placeholder="Misal: 80.36" class="w-full p-2 border border-gray-300 rounded text-sm outline-none font-bold text-gray-800">
+                                        <input type="number" id="calcAnswer" step="0.01" placeholder="Misal: 80.36" class="w-full p-2 border border-gray-300 rounded text-sm outline-none font-bold text-gray-800">
                                         <span class="text-sm font-bold text-gray-600">kPa</span>
                                     </div>
                                 </div>
@@ -309,7 +399,7 @@ DOCTYPE html>
                 </div>
                 <p class="text-xs text-gray-600 mb-3">Buatlah kesimpulan menyeluruh berdasarkan hasil praktikum virtual dan analisis yang telah dilakukan.</p>
 
-                <textarea rows="4" placeholder="Tuliskan kesimpulan poin-poin utama praktikum (Hubungan kedalaman, massa jenis, dan rumus umum tekanan hidrostatis)..." class="w-full p-3.5 bg-white border border-blue-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none leading-relaxed"></textarea>
+                <textarea rows="4" placeholder="Tuliskan kesimpulan poin-poin utama praktikum (Hubungan kedalaman h, massa jenis ρ, dan persamaan P<sub>h</sub> = ρ · g · h)..." class="w-full p-3.5 bg-white border border-blue-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none leading-relaxed"></textarea>
             </section>
 
             <!-- SECTION 9: Penerapan Dalam Kehidupan Sehari-hari -->
@@ -320,7 +410,7 @@ DOCTYPE html>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <!-- Kartu Aplikasi 1: Bendungan -->
+                    <!-- Aplikasi 1: Dinding Bendungan Air -->
                     <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between print-card">
                         <div>
                             <div class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-lg mb-3">
@@ -328,31 +418,31 @@ DOCTYPE html>
                             </div>
                             <h4 class="font-bold text-sm text-gray-800 mb-1">1. Dinding Bendungan Air</h4>
                             <p class="text-xs text-gray-600 leading-relaxed mb-3">
-                                Konstruksi bangunan bendungan atau waduk dibuat makin tebal ke arah dasar bawahnya.
+                                Konstruksi bangunan bendungan atau waduk dibuat semakin tebal ke arah dasar bawahnya.
                             </p>
                         </div>
                         <div class="bg-slate-50 p-2 rounded border border-slate-200 text-[11px] text-slate-700">
-                            <strong>Prinsip:</strong> Karena P<sub>h</sub> bertambah seiring kedalaman h, tekanan air di dasar bendungan adalah yang paling kuat.
+                            <strong>Prinsip Tekanan Hidrostatis:</strong> Karena P<sub>h</sub> bertambah seiring kedalaman h, tekanan air di dasar bendungan adalah yang paling kuat sehingga butuh dinding penahan yang lebih tebal.
                         </div>
                     </div>
 
-                    <!-- Kartu Aplikasi 2: Kapal Selam -->
+                    <!-- Aplikasi 2: Menara / Tandon Penampung Air -->
                     <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between print-card">
                         <div>
                             <div class="w-10 h-10 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-lg mb-3">
-                                <i class="fa-solid fa-ship"></i>
+                                <i class="fa-solid fa-faucet-drip"></i>
                             </div>
-                            <h4 class="font-bold text-sm text-gray-800 mb-1">2. Struktur Kapal Selam</h4>
+                            <h4 class="font-bold text-sm text-gray-800 mb-1">2. Menara Tangki Air (Tandon)</h4>
                             <p class="text-xs text-gray-600 leading-relaxed mb-3">
-                                Dinding kapal selam terbuat dari logam khusus super tebal dan memiliki batas maksimal kedalaman penyelaman.
+                                Tangki penampung air di rumah atau gedung selalu diletakkan di tempat tinggi (atap atau menara).
                             </p>
                         </div>
                         <div class="bg-slate-50 p-2 rounded border border-slate-200 text-[11px] text-slate-700">
-                            <strong>Prinsip:</strong> Jika menyelam terlalu dalam, tekanan luar fluida dapat meremukkan lambung kapal.
+                            <strong>Prinsip Tekanan Hidrostatis:</strong> Ketinggian h yang lebih besar menghasilkan tekanan hidrostatis yang cukup kuat agar air meluncur deras saat keran dibuka.
                         </div>
                     </div>
 
-                    <!-- Kartu Aplikasi 3: Pemasangan Infus -->
+                    <!-- Aplikasi 3: Pemasangan Infus -->
                     <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between print-card">
                         <div>
                             <div class="w-10 h-10 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-lg mb-3">
@@ -360,11 +450,11 @@ DOCTYPE html>
                             </div>
                             <h4 class="font-bold text-sm text-gray-800 mb-1">3. Posisi Botol Infus Medis</h4>
                             <p class="text-xs text-gray-600 leading-relaxed mb-3">
-                                Botol cairan infus di rumah sakit selalu digantung pada tiang dengan posisi lebih tinggi dari tubuh pasien.
+                                Botol cairan infus di rumah sakit selalu digantung pada tiang tinggi melebihi posisi tubuh pasien.
                             </p>
                         </div>
                         <div class="bg-slate-50 p-2 rounded border border-slate-200 text-[11px] text-slate-700">
-                            <strong>Prinsip:</strong> Ketinggian h menghasilkan tekanan hidrostatis cairan yang lebih besar dari tekanan darah pasien.
+                            <strong>Prinsip Tekanan Hidrostatis:</strong> Perbedaan ketinggian h menghasilkan tekanan hidrostatis cairan yang mengalahkan tekanan darah dalam pembuluh balik pasien.
                         </div>
                     </div>
                 </div>
@@ -379,7 +469,7 @@ DOCTYPE html>
                 </div>
             </section>
 
-            <!-- SECTION 10: Rubrik Penilaian & Signature Area (Print Friendly) -->
+            <!-- SECTION 10: Rubrik Penilaian & Signature Area -->
             <section class="border-t border-gray-200 pt-6 mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6 items-end">
                 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 print-card">
                     <h4 class="font-bold text-xs uppercase text-gray-600 mb-2">Kolom Penilaian Guru:</h4>
@@ -400,7 +490,7 @@ DOCTYPE html>
                 </div>
 
                 <div class="text-right text-xs text-gray-600 space-y-1 my-2">
-                    <p>Paraf & Catatan Guru Fisika:</p>
+                    <p>Paraf & Catatan Guru IPA:</p>
                     <div class="h-14 border-b border-dashed border-gray-400 w-48 ml-auto"></div>
                     <p class="font-semibold pt-1">(________________________)</p>
                 </div>
@@ -411,7 +501,6 @@ DOCTYPE html>
 
     <!-- SCRIPT JAVASCRIPT LOGIC -->
     <script>
-        // Data default untuk Tabel Kegiatan 1
         const defaultKegiatan1 = [
             { no: 1, depth: 0.5, density: 1000 },
             { no: 2, depth: 1.0, density: 1000 },
@@ -420,23 +509,22 @@ DOCTYPE html>
             { no: 5, depth: 2.5, density: 1000 }
         ];
 
-        // Data default untuk Tabel Kegiatan 2
         const defaultKegiatan2 = [
-            { no: 1, name: 'Minyak', density: 800, depth: 2.0 },
-            { no: 2, name: 'Air Murni', density: 1000, depth: 2.0 },
-            { no: 3, name: 'Air Laut', density: 1025, depth: 2.0 },
-            { no: 4, name: 'Raksa', density: 13600, depth: 2.0 }
+            { no: 1, name: 'Bensin', density: 750, depth: 2.0 },
+            { no: 2, name: 'Minyak', density: 800, depth: 2.0 },
+            { no: 3, name: 'Air Murni', density: 1000, depth: 2.0 },
+            { no: 4, name: 'Air Laut', density: 1025, depth: 2.0 },
+            { no: 5, name: 'Raksa', density: 13600, depth: 2.0 }
         ];
 
         let myChart = null;
 
-        // Inisialisasi Halaman
         window.onload = function() {
             renderKegiatan1();
             renderKegiatan2();
             initChart();
-            
-            // Set default date today
+            updateSim();
+
             const dateInput = document.getElementById('tanggal');
             if(dateInput) {
                 const today = new Date().toISOString().split('T')[0];
@@ -444,7 +532,36 @@ DOCTYPE html>
             }
         };
 
-        // Render Baris Tabel Kegiatan 1
+        function updateSim() {
+            const rho = parseFloat(document.getElementById('simFluid').value) || 1000;
+            const g = parseFloat(document.querySelector('input[name="simG"]:checked').value) || 9.8;
+            const h = parseFloat(document.getElementById('simDepth').value) || 0;
+            const addAtm = document.getElementById('simAtm').checked;
+
+            // Tekanan Hidrostatis Ph = rho * g * h (Pa) -> kPa
+            const phKPa = (rho * g * h) / 1000;
+            const patmKPa = addAtm ? 101.3 : 0;
+            const totalKPa = phKPa + patmKPa;
+
+            // Update label UI
+            document.getElementById('simDepthVal').innerText = `${h.toFixed(1)} meter`;
+            document.getElementById('simGaugeResult').innerText = `${totalKPa.toFixed(2)} kPa`;
+            document.getElementById('simFormulaText').innerText = phKPa.toFixed(2);
+            document.getElementById('simRhoText').innerText = rho;
+
+            // Update posisi probe dalam visualizer
+            const probePercentage = (h / 3.0) * 92; // 0m to 3m
+            document.getElementById('simProbe').style.top = `${probePercentage}%`;
+
+            // Update warna tank berdasarkan jenis fluida
+            const tank = document.getElementById('simFluidTank');
+            if (rho === 750) tank.className = "flex-1 h-full relative transition-colors duration-500 bg-rose-400/30"; // Bensin
+            else if (rho === 800) tank.className = "flex-1 h-full relative transition-colors duration-500 bg-amber-400/40"; // Minyak
+            else if (rho === 1000) tank.className = "flex-1 h-full relative transition-colors duration-500 bg-blue-500/40"; // Air
+            else if (rho === 1025) tank.className = "flex-1 h-full relative transition-colors duration-500 bg-cyan-600/40"; // Air Laut
+            else if (rho === 13600) tank.className = "flex-1 h-full relative transition-colors duration-500 bg-slate-400/60"; // Raksa
+        }
+
         function renderKegiatan1() {
             const tbody = document.getElementById('table-kegiatan-1');
             tbody.innerHTML = '';
@@ -459,7 +576,7 @@ DOCTYPE html>
                     </td>
                     <td class="p-2.5 border-r border-gray-200 text-center text-xs text-gray-600 font-mono">Air (${row.density} kg/m³)</td>
                     <td class="p-2.5 border-r border-gray-200">
-                        <input type="number" step="0.01" placeholder="e.g. 9.8" id="measured-k1-${index}" class="w-full p-1 bg-transparent border border-gray-200 rounded text-center outline-none focus:border-blue-500 font-semibold text-blue-700">
+                        <input type="number" step="0.01" placeholder="Misal: 9.8" id="measured-k1-${index}" class="w-full p-1 bg-transparent border border-gray-200 rounded text-center outline-none focus:border-blue-500 font-semibold text-blue-700">
                     </td>
                     <td class="p-2.5 border-r border-gray-200 text-center font-semibold text-emerald-700" id="calc-k1-${index}">
                         ${(row.density * 9.8 * row.depth / 1000).toFixed(2)}
@@ -474,17 +591,14 @@ DOCTYPE html>
             });
         }
 
-        // Update Data Kegiatan 1
         function updateKegiatan1Data(index, field, value) {
             defaultKegiatan1[index][field] = parseFloat(value) || 0;
-            // update theoretical value (using g = 9.8 m/s^2)
             const theoreticalPa = defaultKegiatan1[index].density * 9.8 * defaultKegiatan1[index].depth;
             const theoreticalKPa = (theoreticalPa / 1000).toFixed(2);
             document.getElementById(`calc-k1-${index}`).innerText = theoreticalKPa;
             updateChart();
         }
 
-        // Tambah Baris Kegiatan 1
         function addRowKegiatan1() {
             const nextNo = defaultKegiatan1.length + 1;
             const lastDepth = defaultKegiatan1[defaultKegiatan1.length - 1]?.depth || 0;
@@ -493,7 +607,6 @@ DOCTYPE html>
             updateChart();
         }
 
-        // Verifikasi hasil hitung siswa vs simulator
         function verifyRow1(index) {
             const measuredInput = document.getElementById(`measured-k1-${index}`);
             const val = parseFloat(measuredInput.value);
@@ -512,7 +625,6 @@ DOCTYPE html>
             }
         }
 
-        // Render Baris Tabel Kegiatan 2
         function renderKegiatan2() {
             const tbody = document.getElementById('table-kegiatan-2');
             tbody.innerHTML = '';
@@ -536,7 +648,6 @@ DOCTYPE html>
             });
         }
 
-        // Inisialisasi Chart.js
         function initChart() {
             const ctx = document.getElementById('hydroChart').getContext('2d');
             
@@ -548,7 +659,7 @@ DOCTYPE html>
                 data: {
                     labels: depths,
                     datasets: [{
-                        label: 'Tekanan Hidrostatis (kPa)',
+                        label: 'Tekanan Hidrostatis Ph (kPa)',
                         data: theoreticalPressures,
                         borderColor: '#2563eb',
                         backgroundColor: 'rgba(37, 99, 235, 0.15)',
@@ -596,7 +707,6 @@ DOCTYPE html>
             });
         }
 
-        // Update Chart berdasarkan input siswa
         function updateChart() {
             if (!myChart) return;
 
@@ -608,15 +718,12 @@ DOCTYPE html>
             myChart.update();
         }
 
-        // Cek Jawaban Soal Hitungan Penyelam
         function checkAnswer() {
             const ansInput = document.getElementById('calcAnswer');
             const resultDiv = document.getElementById('calcResult');
             const userVal = parseFloat(ansInput.value);
 
-            // Perhitungan: P = 1025 * 9.8 * 8 = 80360 Pa = 80.36 kPa
-            const correctAnswer = 80.36; // toleransi 80.36 atau 82.0 jika g=10 -> 82 kPa
-
+            // P = 1025 * 9.8 * 8 = 80360 Pa = 80.36 kPa
             resultDiv.classList.remove('hidden', 'text-emerald-600', 'text-rose-600');
 
             if (isNaN(userVal)) {
@@ -629,17 +736,15 @@ DOCTYPE html>
                 resultDiv.innerText = "✓ Tepat Sekali! (Ph = 1025 × 9.8 × 8 = 80.36 kPa)";
                 resultDiv.classList.add('text-emerald-600');
             } else {
-                resultDiv.innerText = `× Kurang tepat. Coba periksa kembali (Petunjuk: Ph = ρ × g × h = 1025 × 9.8 × 8 = 80.36 kPa)`;
+                resultDiv.innerText = `× Kurang tepat. Periksa kembali (Ph = ρ · g · h = 1025 × 9.8 × 8 = 80.36 kPa)`;
                 resultDiv.classList.add('text-rose-600');
             }
         }
 
-        // Download PDF Function using html2pdf
         function downloadPDF() {
             const element = document.getElementById('lkpd-document');
             document.body.classList.add('pdf-export-mode');
 
-            // Options config
             const opt = {
                 margin:       [0.3, 0.3, 0.3, 0.3],
                 filename:     `LKPD_Tekanan_Hidrostatis_Kelompok.pdf`,
@@ -648,12 +753,10 @@ DOCTYPE html>
                 jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
 
-            // Temporary hide no-print elements
             const noPrintEls = document.querySelectorAll('.no-print');
             noPrintEls.forEach(el => el.style.display = 'none');
 
             html2pdf().set(opt).from(element).save().then(() => {
-                // Restore no-print elements
                 noPrintEls.forEach(el => el.style.display = '');
                 document.body.classList.remove('pdf-export-mode');
             });
