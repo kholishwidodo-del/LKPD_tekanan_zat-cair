@@ -1,0 +1,663 @@
+DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LKPD Interaktif - Tekanan Hidrostatis</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- html2pdf for PDF Download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+
+        /* Styles for printing and PDF generation */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+            }
+            .print-card {
+                box-shadow: none !important;
+                border: 1px solid #d1d5db !important;
+                page-break-inside: avoid;
+            }
+            input, textarea, select {
+                border: none !important;
+                background: transparent !important;
+                resize: none !important;
+            }
+            .print-page-break {
+                page-break-before: always;
+            }
+        }
+
+        .pdf-export-mode input, .pdf-export-mode textarea {
+            border-bottom: 1px dashed #9ca3af !important;
+            background-color: #fafafa !important;
+        }
+    </style>
+</head>
+<body class="py-6 px-3 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+
+    <!-- Container Utama Document -->
+    <div id="lkpd-document" class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
+        
+        <!-- Header LKPD -->
+        <header class="bg-gradient-to-r from-blue-700 via-indigo-700 to-cyan-600 text-white p-6 sm:p-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-center md:text-left">
+                    <span class="bg-blue-800 text-blue-100 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider"> IPA MTsN 1 Kota Malang </span>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold mt-2 tracking-tight">LEMBAR KERJA PESERTA DIDIK (LKPD) INTERAKTIF</h1>
+                    <p class="text-blue-100 mt-1 font-medium text-sm sm:text-base">Materi: Tekanan Zat Cair</p>
+                </div>
+                <div class="no-print flex flex-col sm:flex-row gap-2">
+                    <button onclick="downloadPDF()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-4 py-2.5 rounded-lg transition-all shadow-md flex items-center justify-center gap-2 text-sm">
+                        <i class="fa-solid fa-file-pdf"></i> Download PDF
+                    </button>
+                    <button onclick="window.print()" class="bg-white/20 hover:bg-white/30 text-white font-semibold px-4 py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 text-sm backdrop-blur-sm">
+                        <i class="fa-solid fa-print"></i> Cetak
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="p-6 sm:p-8 space-y-8">
+
+            <!-- SECTION 1: Identitas Kelompok -->
+            <section class="bg-slate-50 p-5 rounded-xl border border-slate-200 print-card">
+                <div class="flex items-center gap-2 mb-4 text-blue-800 font-bold text-lg border-b border-slate-200 pb-2">
+                    <i class="fa-solid fa-users"></i>
+                    <h2>IDENTITAS KELOMPOK </h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Nama Kelompok / Kelas:</label>
+                        <input type="text" id="namaKelompok" placeholder="Contoh: Kelompok 3 - IX" class="w-full p-2.5 bg-white border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Tanggal Pelaksanaan:</label>
+                        <input type="date" id="tanggal" class="w-full p-2.5 bg-white border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="bg-white p-3 rounded-lg border border-gray-200 shadow-sm flex items-center gap-3">
+                        <span class="w-7 h-7 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs">1</span>
+                        <input type="text" id="anggota1" placeholder="Siswa 1 (Ketua Kelompok)" class="w-full p-1 text-sm bg-transparent border-none outline-none font-medium">
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-gray-200 shadow-sm flex items-center gap-3">
+                        <span class="w-7 h-7 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs">2</span>
+                        <input type="text" id="anggota2" placeholder="Siswa 2 (Anggota)" class="w-full p-1 text-sm bg-transparent border-none outline-none">
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-gray-200 shadow-sm flex items-center gap-3">
+                        <span class="w-7 h-7 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs">3</span>
+                        <input type="text" id="anggota3" placeholder="Siswa 3 (Anggota)" class="w-full p-1 text-sm bg-transparent border-none outline-none">
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-gray-200 shadow-sm flex items-center gap-3">
+                        <span class="w-7 h-7 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs">4</span>
+                        <input type="text" id="anggota4" placeholder="Siswa 4 (Anggota)" class="w-full p-1 text-sm bg-transparent border-none outline-none">
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: Tujuan & Ringkasan Teori -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Tujuan Pembelajaran -->
+                <div class="bg-blue-50/70 p-5 rounded-xl border border-blue-100 print-card">
+                    <h3 class="font-bold text-blue-900 text-base mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-bullseye text-blue-600"></i> Tujuan Pembelajaran
+                    </h3>
+                    <ul class="list-disc list-inside text-sm text-gray-700 space-y-1.5 leading-relaxed">
+                        <li>Menganalisis hubungan antara <strong>kedalaman (h)</strong> dengan besar <strong>tekanan hidrostatis (P<sub>h</sub>)</strong>.</li>
+                        <li>Menganalisis pengaruh <strong>massa jenis fluida (ρ)</strong> terhadap tekanan hidrostatis.</li>
+                        <li>Memverifikasi persamaan matematis P<sub>h</sub> = ρ · g · h menggunakan simulator virtual.</li>
+                        <li>Menghubungkan konsep tekanan hidrostatis dengan fenomena kehidupan sehari-hari.</li>
+                    </ul>
+                </div>
+
+                <!-- Ringkasan Teori -->
+                <div class="bg-indigo-50/70 p-5 rounded-xl border border-indigo-100 print-card">
+                    <h3 class="font-bold text-indigo-900 text-base mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-book-open text-indigo-600"></i> Dasar Teori
+                    </h3>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-2">
+                        Tekanan hidrostatis adalah tekanan yang diberikan oleh fluida tak bergerak akibat adanya gaya gravitasi.
+                    </p>
+                    <div class="bg-white p-3 rounded-lg border border-indigo-200 text-center shadow-inner my-2">
+                        <span class="font-bold text-indigo-800 text-base">Persamaan: P<sub>h</sub> = ρ · g · h</span>
+                    </div>
+                    <p class="text-xs text-gray-600 mt-1">
+                        Keterangan: P<sub>h</sub> = Tekanan Hidrostatis (Pa/kPa), ρ = Massa Jenis Fluida (kg/m³), g = Percepatan Gravitasi (m/s²), h = Kedalaman (m).
+                    </p>
+                </div>
+            </section>
+
+            <!-- SECTION 3: Simulator Virtual Direct Embed & Link -->
+            <section class="bg-gradient-to-br from-slate-900 to-slate-800 text-white p-5 rounded-2xl shadow-md no-print">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
+                    <div>
+                        <h3 class="font-bold text-lg text-cyan-300 flex items-center gap-2">
+                            <i class="fa-solid fa-flask"></i> Simulator Virtual Tekanan Zat Cair
+                        </h3>
+                        <p class="text-xs text-slate-300">Gunakan simulator di bawah ini untuk mengambil data pengamatan kelompok Anda.</p>
+                    </div>
+                    <a href="https://kholishwidodo-del.github.io/simulator_Tekanan-hidrostatis_mekanika-fluida/" target="_blank" class="text-xs bg-cyan-500 hover:bg-cyan-600 text-slate-950 font-bold px-3 py-2 rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka di Tab Baru
+                    </a>
+                </div>
+
+                <!-- Frame Embed Simulator -->
+                <div class="w-full bg-slate-950 rounded-xl overflow-hidden border border-slate-700 shadow-inner min-h-[480px] relative">
+                    <iframe id="sim-frame" src="https://kholishwidodo-del.github.io/simulator_Tekanan-hidrostatis_mekanika-fluida/" class="w-full h-[520px] border-none" title="Simulator Tekanan Hidrostatis"></iframe>
+                </div>
+            </section>
+
+            <!-- PRINT ONLY fallback info for simulator -->
+            <div class="hidden print:block bg-gray-100 p-3 rounded text-xs text-gray-600 italic border border-gray-300">
+                Data diperoleh melalui Simulator Praktikum Virtual Tekanan Hidrostatis (https://kholishwidodo-del.github.io/simulator_Tekanan-hidrostatis_mekanika-fluida/)
+            </div>
+
+            <!-- SECTION 4: Kegiatan 1 - Variasi Kedalaman -->
+            <section class="space-y-4">
+                <div class="border-l-4 border-blue-600 pl-3">
+                    <h3 class="font-bold text-lg text-gray-800">Kegiatan 1: Pengaruh Kedalaman (h) Terhadap Tekanan Hidrostatis</h3>
+                    <p class="text-xs text-gray-600">Kontrol: Massa Jenis Fluida Air (ρ = 1000 kg/m³) dan Percepatan Gravitasi (g = 9.8 m/s² atau 10 m/s²).</p>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left text-gray-700 border-collapse border border-gray-300 rounded-lg overflow-hidden">
+                        <thead class="text-xs text-slate-800 uppercase bg-blue-100/80 border-b border-gray-300">
+                            <tr>
+                                <th class="p-3 text-center border-r border-gray-300 w-12">No</th>
+                                <th class="p-3 border-r border-gray-300">Kedalaman h (meter)</th>
+                                <th class="p-3 border-r border-gray-300">Fluida (ρ)</th>
+                                <th class="p-3 border-r border-gray-300">Tekanan Terukur di Simulator (kPa)</th>
+                                <th class="p-3 border-r border-gray-300">Hasil Hitung Teoritis P<sub>h</sub> = ρ · g · h (kPa)</th>
+                                <th class="p-3 text-center">Kesesuaian</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-kegiatan-1" class="divide-y divide-gray-200 bg-white">
+                            <!-- Rows generated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-between items-center text-xs text-gray-500 no-print">
+                    <button onclick="addRowKegiatan1()" class="text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-1">
+                        <i class="fa-solid fa-plus"></i> Tambah Baris Data
+                    </button>
+                    <span>*Gunakan nilai g = 9.8 m/s² atau 10 m/s² sesuai penetapan kelompok</span>
+                </div>
+            </section>
+
+            <!-- SECTION 5: Kegiatan 2 - Variasi Massa Jenis Fluida -->
+            <section class="space-y-4">
+                <div class="border-l-4 border-indigo-600 pl-3">
+                    <h3 class="font-bold text-lg text-gray-800">Kegiatan 2: Pengaruh Jenis Fluida (ρ) Terhadap Tekanan Hidrostatis</h3>
+                    <p class="text-xs text-gray-600">Kontrol: Tetapkan kedalaman h = 2 meter konstan, variasikan jenis cairan (misal: Minyak, Air, Raksa, atau Cairan Lain).</p>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left text-gray-700 border-collapse border border-gray-300 rounded-lg overflow-hidden">
+                        <thead class="text-xs text-slate-800 uppercase bg-indigo-100/80 border-b border-gray-300">
+                            <tr>
+                                <th class="p-3 text-center border-r border-gray-300 w-12">No</th>
+                                <th class="p-3 border-r border-gray-300">Jenis Fluida</th>
+                                <th class="p-3 border-r border-gray-300">Massa Jenis ρ (kg/m³)</th>
+                                <th class="p-3 border-r border-gray-300">Kedalaman h (m)</th>
+                                <th class="p-3 border-r border-gray-300">Tekanan Terukur (kPa)</th>
+                                <th class="p-3 text-center">Catatan Pengamatan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-kegiatan-2" class="divide-y divide-gray-200 bg-white">
+                            <!-- Rows generated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECTION 6: Grafik Interaktif (Chart.js) -->
+            <section class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm space-y-4 print-card">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-gray-200 pb-3">
+                    <div>
+                        <h3 class="font-bold text-base text-gray-800 flex items-center gap-2">
+                            <i class="fa-solid fa-chart-line text-blue-600"></i> Grafik Hubungan Kedalaman (h) vs Tekanan Hidrostatis (P<sub>h</sub>)
+                        </h3>
+                        <p class="text-xs text-gray-500">Klik tombol di kanan untuk memperbarui grafik berdasarkan data tabel Kegiatan 1.</p>
+                    </div>
+                    <button onclick="updateChart()" class="no-print bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs px-3.5 py-2 rounded-lg transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-rotate"></i> Update Grafik
+                    </button>
+                </div>
+
+                <div class="relative w-full h-[300px] flex items-center justify-center bg-slate-50 rounded-lg p-2">
+                    <canvas id="hydroChart"></canvas>
+                </div>
+            </section>
+
+            <!-- SECTION 7: Analisis Data & Pertanyaan Diskusi -->
+            <section class="space-y-5">
+                <div class="border-l-4 border-amber-500 pl-3">
+                    <h3 class="font-bold text-lg text-gray-800">Analisis Data & Pertanyaan Diskusi</h3>
+                    <p class="text-xs text-gray-600">Diskusikan bersama 4 anggota kelompok untuk menjawab pertanyaan berikut.</p>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Pertanyaan 1 -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 print-card">
+                        <label class="block font-semibold text-sm text-gray-800 mb-2">
+                            1. Berdasarkan Grafik & Tabel Kegiatan 1, bagaimana hubungan antara kedalaman posisi benda dalam cairan (h) dengan tekanan hidrostatis (P<sub>h</sub>)? Jelaskan alasan ilmiahnya!
+                        </label>
+                        <textarea rows="3" placeholder="Tuliskan hasil diskusi kelompok Anda di sini..." class="w-full p-3 bg-white border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none leading-relaxed"></textarea>
+                    </div>
+
+                    <!-- Pertanyaan 2 -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 print-card">
+                        <label class="block font-semibold text-sm text-gray-800 mb-2">
+                            2. Pada Kegiatan 2, fluida manakah yang menghasilkan tekanan hidrostatis paling besar pada kedalaman yang sama? Mengapa massa jenis mempengaruhi besarnya tekanan?
+                        </label>
+                        <textarea rows="3" placeholder="Tuliskan analisis kelompok Anda di sini..." class="w-full p-3 bg-white border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none leading-relaxed"></textarea>
+                    </div>
+
+                    <!-- Pertanyaan 3 - Soal Studi Kasus Perhitungan -->
+                    <div class="bg-amber-50/60 p-4 rounded-xl border border-amber-200 print-card">
+                        <label class="block font-semibold text-sm text-amber-900 mb-2">
+                            3. <span class="bg-amber-200 text-amber-900 px-2 py-0.5 rounded text-xs">Studi Kasus Hitungan</span> Seorang penyelam sedang melakukan latihan di kedalaman 8 meter di bawah permukaan air laut (ρ = 1025 kg/m³). Jika gravitasi g = 9.8 m/s², berapa besar tekanan hidrostatis yang dirasakan oleh penyelam tersebut?
+                        </label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                            <div>
+                                <label class="block text-xs font-medium text-gray-600 mb-1">Langkah Penyelesaian / Rumus:</label>
+                                <textarea rows="3" placeholder="Diketahui: ρ = ..., g = ..., h = ...&#10;Jawab: Ph = ..." class="w-full p-2.5 bg-white border border-amber-300 rounded-lg text-sm outline-none"></textarea>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-amber-200 flex flex-col justify-between">
+                                <div>
+                                    <span class="text-xs font-semibold text-gray-500 uppercase">Input Hasil Akhir (kPa):</span>
+                                    <div class="flex items-center gap-2 mt-2">
+                                        <input type="number" id="calcAnswer" step="0.1" placeholder="Misal: 80.36" class="w-full p-2 border border-gray-300 rounded text-sm outline-none font-bold text-gray-800">
+                                        <span class="text-sm font-bold text-gray-600">kPa</span>
+                                    </div>
+                                </div>
+                                <button onclick="checkAnswer()" class="no-print mt-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold text-xs py-2 px-3 rounded transition-all">
+                                    Cek Jawaban Kelompok
+                                </button>
+                                <div id="calcResult" class="text-xs font-semibold mt-1 hidden"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 8: Kesimpulan Praktikum -->
+            <section class="bg-gradient-to-r from-blue-50 to-indigo-50 p-5 rounded-xl border border-blue-200 print-card">
+                <div class="flex items-center gap-2 mb-3 text-blue-900 font-bold text-lg">
+                    <i class="fa-solid fa-clipboard-check text-blue-600"></i>
+                    <h3>KESIMPULAN KELOMPOK</h3>
+                </div>
+                <p class="text-xs text-gray-600 mb-3">Buatlah kesimpulan menyeluruh berdasarkan hasil praktikum virtual dan analisis yang telah dilakukan.</p>
+
+                <textarea rows="4" placeholder="Tuliskan kesimpulan poin-poin utama praktikum (Hubungan kedalaman, massa jenis, dan rumus umum tekanan hidrostatis)..." class="w-full p-3.5 bg-white border border-blue-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none leading-relaxed"></textarea>
+            </section>
+
+            <!-- SECTION 9: Penerapan Dalam Kehidupan Sehari-hari -->
+            <section class="space-y-4">
+                <div class="border-l-4 border-emerald-600 pl-3">
+                    <h3 class="font-bold text-lg text-gray-800">Penerapan Tekanan Hidrostatis Dalam Kehidupan Sehari-hari</h3>
+                    <p class="text-xs text-gray-600">Pelajari konsep rekayasa fisika pada aplikasi dunia nyata berikut dan jawab pertanyaan analisanya.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Kartu Aplikasi 1: Bendungan -->
+                    <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between print-card">
+                        <div>
+                            <div class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-lg mb-3">
+                                <i class="fa-solid fa-water"></i>
+                            </div>
+                            <h4 class="font-bold text-sm text-gray-800 mb-1">1. Dinding Bendungan Air</h4>
+                            <p class="text-xs text-gray-600 leading-relaxed mb-3">
+                                Konstruksi bangunan bendungan atau waduk dibuat makin tebal ke arah dasar bawahnya.
+                            </p>
+                        </div>
+                        <div class="bg-slate-50 p-2 rounded border border-slate-200 text-[11px] text-slate-700">
+                            <strong>Prinsip:</strong> Karena P<sub>h</sub> bertambah seiring kedalaman h, tekanan air di dasar bendungan adalah yang paling kuat.
+                        </div>
+                    </div>
+
+                    <!-- Kartu Aplikasi 2: Kapal Selam -->
+                    <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between print-card">
+                        <div>
+                            <div class="w-10 h-10 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-lg mb-3">
+                                <i class="fa-solid fa-ship"></i>
+                            </div>
+                            <h4 class="font-bold text-sm text-gray-800 mb-1">2. Struktur Kapal Selam</h4>
+                            <p class="text-xs text-gray-600 leading-relaxed mb-3">
+                                Dinding kapal selam terbuat dari logam khusus super tebal dan memiliki batas maksimal kedalaman penyelaman.
+                            </p>
+                        </div>
+                        <div class="bg-slate-50 p-2 rounded border border-slate-200 text-[11px] text-slate-700">
+                            <strong>Prinsip:</strong> Jika menyelam terlalu dalam, tekanan luar fluida dapat meremukkan lambung kapal.
+                        </div>
+                    </div>
+
+                    <!-- Kartu Aplikasi 3: Pemasangan Infus -->
+                    <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between print-card">
+                        <div>
+                            <div class="w-10 h-10 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-lg mb-3">
+                                <i class="fa-solid fa-syringe"></i>
+                            </div>
+                            <h4 class="font-bold text-sm text-gray-800 mb-1">3. Posisi Botol Infus Medis</h4>
+                            <p class="text-xs text-gray-600 leading-relaxed mb-3">
+                                Botol cairan infus di rumah sakit selalu digantung pada tiang dengan posisi lebih tinggi dari tubuh pasien.
+                            </p>
+                        </div>
+                        <div class="bg-slate-50 p-2 rounded border border-slate-200 text-[11px] text-slate-700">
+                            <strong>Prinsip:</strong> Ketinggian h menghasilkan tekanan hidrostatis cairan yang lebih besar dari tekanan darah pasien.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pertanyaan Refleksi Penerapan -->
+                <div class="bg-emerald-50/60 p-4 rounded-xl border border-emerald-200 print-card space-y-3">
+                    <label class="block font-semibold text-sm text-emerald-950">
+                        <i class="fa-solid fa-lightbulb text-emerald-600 mr-1"></i> Pertanyaan Refleksi Aplikasi:
+                        Mengapa saat kita menyelam di kolam renang yang dalam, telinga kita sering terasa sakit atau tertekan? Bagaimana cara mengatasinya secara fisika?
+                    </label>
+                    <textarea rows="3" placeholder="Jelaskan hubungan kedalaman air dengan gendang telinga Anda..." class="w-full p-3 bg-white border border-emerald-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 outline-none leading-relaxed"></textarea>
+                </div>
+            </section>
+
+            <!-- SECTION 10: Rubrik Penilaian & Signature Area (Print Friendly) -->
+            <section class="border-t border-gray-200 pt-6 mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6 items-end">
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 print-card">
+                    <h4 class="font-bold text-xs uppercase text-gray-600 mb-2">Kolom Penilaian Guru:</h4>
+                    <div class="grid grid-cols-3 gap-2 text-center">
+                        <div class="bg-white p-2 rounded border border-gray-200">
+                            <span class="block text-[10px] text-gray-500">Kelengkapan</span>
+                            <span class="font-bold text-sm text-gray-700">- / 30</span>
+                        </div>
+                        <div class="bg-white p-2 rounded border border-gray-200">
+                            <span class="block text-[10px] text-gray-500">Analisis</span>
+                            <span class="font-bold text-sm text-gray-700">- / 40</span>
+                        </div>
+                        <div class="bg-white p-2 rounded border border-gray-200">
+                            <span class="block text-[10px] text-gray-500">Nilai Akhir</span>
+                            <span class="font-bold text-base text-blue-700">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-right text-xs text-gray-600 space-y-1 my-2">
+                    <p>Paraf & Catatan Guru Fisika:</p>
+                    <div class="h-14 border-b border-dashed border-gray-400 w-48 ml-auto"></div>
+                    <p class="font-semibold pt-1">(________________________)</p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- SCRIPT JAVASCRIPT LOGIC -->
+    <script>
+        // Data default untuk Tabel Kegiatan 1
+        const defaultKegiatan1 = [
+            { no: 1, depth: 0.5, density: 1000 },
+            { no: 2, depth: 1.0, density: 1000 },
+            { no: 3, depth: 1.5, density: 1000 },
+            { no: 4, depth: 2.0, density: 1000 },
+            { no: 5, depth: 2.5, density: 1000 }
+        ];
+
+        // Data default untuk Tabel Kegiatan 2
+        const defaultKegiatan2 = [
+            { no: 1, name: 'Minyak', density: 800, depth: 2.0 },
+            { no: 2, name: 'Air Murni', density: 1000, depth: 2.0 },
+            { no: 3, name: 'Air Laut', density: 1025, depth: 2.0 },
+            { no: 4, name: 'Raksa', density: 13600, depth: 2.0 }
+        ];
+
+        let myChart = null;
+
+        // Inisialisasi Halaman
+        window.onload = function() {
+            renderKegiatan1();
+            renderKegiatan2();
+            initChart();
+            
+            // Set default date today
+            const dateInput = document.getElementById('tanggal');
+            if(dateInput) {
+                const today = new Date().toISOString().split('T')[0];
+                dateInput.value = today;
+            }
+        };
+
+        // Render Baris Tabel Kegiatan 1
+        function renderKegiatan1() {
+            const tbody = document.getElementById('table-kegiatan-1');
+            tbody.innerHTML = '';
+
+            defaultKegiatan1.forEach((row, index) => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition-colors";
+                tr.innerHTML = `
+                    <td class="p-2.5 text-center font-bold text-gray-600 border-r border-gray-200">${index + 1}</td>
+                    <td class="p-2.5 border-r border-gray-200">
+                        <input type="number" step="0.1" value="${row.depth}" onchange="updateKegiatan1Data(${index}, 'depth', this.value)" class="w-full p-1 bg-transparent border border-gray-200 rounded text-center outline-none focus:border-blue-500 font-medium">
+                    </td>
+                    <td class="p-2.5 border-r border-gray-200 text-center text-xs text-gray-600 font-mono">Air (${row.density} kg/m³)</td>
+                    <td class="p-2.5 border-r border-gray-200">
+                        <input type="number" step="0.01" placeholder="e.g. 9.8" id="measured-k1-${index}" class="w-full p-1 bg-transparent border border-gray-200 rounded text-center outline-none focus:border-blue-500 font-semibold text-blue-700">
+                    </td>
+                    <td class="p-2.5 border-r border-gray-200 text-center font-semibold text-emerald-700" id="calc-k1-${index}">
+                        ${(row.density * 9.8 * row.depth / 1000).toFixed(2)}
+                    </td>
+                    <td class="p-2.5 text-center">
+                        <button onclick="verifyRow1(${index})" class="no-print bg-slate-100 hover:bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded border border-blue-200 transition-all">
+                            Cek
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Update Data Kegiatan 1
+        function updateKegiatan1Data(index, field, value) {
+            defaultKegiatan1[index][field] = parseFloat(value) || 0;
+            // update theoretical value (using g = 9.8 m/s^2)
+            const theoreticalPa = defaultKegiatan1[index].density * 9.8 * defaultKegiatan1[index].depth;
+            const theoreticalKPa = (theoreticalPa / 1000).toFixed(2);
+            document.getElementById(`calc-k1-${index}`).innerText = theoreticalKPa;
+            updateChart();
+        }
+
+        // Tambah Baris Kegiatan 1
+        function addRowKegiatan1() {
+            const nextNo = defaultKegiatan1.length + 1;
+            const lastDepth = defaultKegiatan1[defaultKegiatan1.length - 1]?.depth || 0;
+            defaultKegiatan1.push({ no: nextNo, depth: parseFloat((lastDepth + 0.5).toFixed(1)), density: 1000 });
+            renderKegiatan1();
+            updateChart();
+        }
+
+        // Verifikasi hasil hitung siswa vs simulator
+        function verifyRow1(index) {
+            const measuredInput = document.getElementById(`measured-k1-${index}`);
+            const val = parseFloat(measuredInput.value);
+            const theoretical = parseFloat((defaultKegiatan1[index].density * 9.8 * defaultKegiatan1[index].depth / 1000).toFixed(2));
+
+            if (isNaN(val)) {
+                alert("Isi terlebih dahulu nilai tekanan terukur dari simulator!");
+                return;
+            }
+
+            const diff = Math.abs(val - theoretical);
+            if (diff < 1.0) {
+                measuredInput.className = measuredInput.className.replace('border-gray-200', 'border-emerald-500 bg-emerald-50');
+            } else {
+                measuredInput.className = measuredInput.className.replace('border-gray-200', 'border-rose-400 bg-rose-50');
+            }
+        }
+
+        // Render Baris Tabel Kegiatan 2
+        function renderKegiatan2() {
+            const tbody = document.getElementById('table-kegiatan-2');
+            tbody.innerHTML = '';
+
+            defaultKegiatan2.forEach((row, index) => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition-colors";
+                tr.innerHTML = `
+                    <td class="p-2.5 text-center font-bold text-gray-600 border-r border-gray-200">${index + 1}</td>
+                    <td class="p-2.5 border-r border-gray-200 font-medium text-gray-800">${row.name}</td>
+                    <td class="p-2.5 border-r border-gray-200 text-center font-mono text-xs">${row.density}</td>
+                    <td class="p-2.5 border-r border-gray-200 text-center font-medium">${row.depth}</td>
+                    <td class="p-2.5 border-r border-gray-200">
+                        <input type="number" step="0.01" placeholder="Tekanan (kPa)" class="w-full p-1 bg-transparent border border-gray-200 rounded text-center outline-none focus:border-indigo-500 font-semibold text-indigo-700">
+                    </td>
+                    <td class="p-2.5">
+                        <input type="text" placeholder="Observasi kelompok..." class="w-full p-1 bg-transparent border-b border-gray-200 text-xs outline-none">
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Inisialisasi Chart.js
+        function initChart() {
+            const ctx = document.getElementById('hydroChart').getContext('2d');
+            
+            const depths = defaultKegiatan1.map(d => `${d.depth} m`);
+            const theoreticalPressures = defaultKegiatan1.map(d => (d.density * 9.8 * d.depth / 1000).toFixed(2));
+
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: depths,
+                    datasets: [{
+                        label: 'Tekanan Hidrostatis (kPa)',
+                        data: theoreticalPressures,
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.15)',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#1d4ed8',
+                        pointRadius: 6,
+                        fill: true,
+                        tension: 0.2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `Tekanan: ${context.raw} kPa`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Kedalaman h (Meter)',
+                                font: { weight: 'bold' }
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Tekanan Hidrostatis Ph (kPa)',
+                                font: { weight: 'bold' }
+                            },
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update Chart berdasarkan input siswa
+        function updateChart() {
+            if (!myChart) return;
+
+            const depths = defaultKegiatan1.map(d => `${d.depth} m`);
+            const theoreticalPressures = defaultKegiatan1.map(d => (d.density * 9.8 * d.depth / 1000).toFixed(2));
+
+            myChart.data.labels = depths;
+            myChart.data.datasets[0].data = theoreticalPressures;
+            myChart.update();
+        }
+
+        // Cek Jawaban Soal Hitungan Penyelam
+        function checkAnswer() {
+            const ansInput = document.getElementById('calcAnswer');
+            const resultDiv = document.getElementById('calcResult');
+            const userVal = parseFloat(ansInput.value);
+
+            // Perhitungan: P = 1025 * 9.8 * 8 = 80360 Pa = 80.36 kPa
+            const correctAnswer = 80.36; // toleransi 80.36 atau 82.0 jika g=10 -> 82 kPa
+
+            resultDiv.classList.remove('hidden', 'text-emerald-600', 'text-rose-600');
+
+            if (isNaN(userVal)) {
+                resultDiv.innerText = "Silakan masukkan angka hasil perhitungan!";
+                resultDiv.classList.add('text-rose-600');
+                return;
+            }
+
+            if (Math.abs(userVal - 80.36) < 1.0 || Math.abs(userVal - 82.0) < 1.0) {
+                resultDiv.innerText = "✓ Tepat Sekali! (Ph = 1025 × 9.8 × 8 = 80.36 kPa)";
+                resultDiv.classList.add('text-emerald-600');
+            } else {
+                resultDiv.innerText = `× Kurang tepat. Coba periksa kembali (Petunjuk: Ph = ρ × g × h = 1025 × 9.8 × 8 = 80.36 kPa)`;
+                resultDiv.classList.add('text-rose-600');
+            }
+        }
+
+        // Download PDF Function using html2pdf
+        function downloadPDF() {
+            const element = document.getElementById('lkpd-document');
+            document.body.classList.add('pdf-export-mode');
+
+            // Options config
+            const opt = {
+                margin:       [0.3, 0.3, 0.3, 0.3],
+                filename:     `LKPD_Tekanan_Hidrostatis_Kelompok.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, logging: false },
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Temporary hide no-print elements
+            const noPrintEls = document.querySelectorAll('.no-print');
+            noPrintEls.forEach(el => el.style.display = 'none');
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Restore no-print elements
+                noPrintEls.forEach(el => el.style.display = '');
+                document.body.classList.remove('pdf-export-mode');
+            });
+        }
+    </script>
+</body>
+</html>
